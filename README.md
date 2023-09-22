@@ -1,5 +1,7 @@
 Expected challenges: I am still getting comfortable with JS functions and logic, so this will be a challenge. Because I'm still getting the hang of it, I'm very excited to continue practicing JS/the DOM through this project!
 
+Goal: code connect four and become more comfortable with multifaceted functions and game logic! I'd also really like to add AI algorithms if I have time so that the user can play against an oponent whenever they load the page (so that the game is accomplishing its intended purpose)
+
 html:
 //create the holes using div elements
 //wrap these divs in a div and, to give the holes an outline, create a border around the encapsulating div
