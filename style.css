@@ -1,0 +1,147 @@
+h1 {
+  text-align: center;
+  letter-spacing: 0.25rem;
+  color: grey;
+  margin: 0.5rem;
+  font-family: "Bebas Neue", sans-serif;
+  font-family: "Caveat", cursive;
+}
+
+h3 {
+  text-align: center;
+  letter-spacing: 0.25rem;
+  color: grey;
+  font-size: 1.5rem;
+  font-family: "Bebas Neue", sans-serif;
+  font-family: "Caveat", cursive;
+  margin: 2rem 0 0 0;
+}
+
+body {
+  background-color: whitesmoke;
+}
+
+.toCenter {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  }
+
+#winner {
+  background-color: #3ba0f8; 
+  color: white; 
+  padding: 1rem 1.5rem; 
+  font-size: 2rem; 
+  font-family: "Bebas Neue", sans-serif;
+  font-family: "Caveat", cursive;
+  border: none; 
+  border-radius: 1.5rem; /* Rounded corners */
+
+}
+
+#playagain {
+  background-color: #3ba0f8; 
+  color: white; 
+  padding: 1.5rem 2rem; 
+  font-size: 2rem; 
+  font-family: "Bebas Neue", sans-serif;
+  font-family: "Caveat", cursive;
+  border: none; 
+  border-radius: 1.5rem; /* Rounded corners */
+  cursor: pointer; 
+  transition: background-color 0.3s ease; /* Smooth color transition on hover */
+  }
+  
+#playagain:hover {
+  background-color: blue;
+  }
+
+.holesContainer {
+  border: 1rem solid blue;
+  border-top: none;
+  background-color: rgb(247, 137, 208);
+  display: grid;
+  place-content: center;
+  grid-template-columns: repeat(7, 1fr); /* 7 columns with equal width */
+  grid-template-rows: repeat(6, 1fr); /* 6 rows with equal height */
+  gap: 1.2rem;
+  width: 43rem;
+  height: 35rem;
+  padding: 2rem;
+}
+
+/* hole refers to class made in JS--created in JS to save 42 lines of code in html */
+.hole {
+  border-radius: 50%;
+  background-color: transparent;
+  border: 0.05rem solid black;
+  background-color: white;
+}
+
+.clickContainer {
+  margin-bottom: 0rem;
+  display: flex;
+  flex-direction: row;
+  margin-bottom: 0;
+}
+
+.triangleButton {
+  margin-right: 1.55rem;
+  margin-left: 1.55rem;
+  margin-bottom: -1.2rem;
+  width: 0;
+  height: 0;
+  border-top: 40px solid whitesmoke;
+  border-bottom: 40px solid whitesmoke;
+  border-right: 40px solid rgb(97, 156, 244);
+  border-left: 0;
+  cursor: pointer;
+  transform: rotate(270deg);
+}
+
+.triangleButton:hover {
+  border-right: 40px solid blue;
+}
+
+.gameboard {
+  position: relative;
+  display: flex;
+  flex-direction: column; /* Stack children vertically */
+  align-items: center; /* Center children horizontally */
+  min-height: 100vh; /* Make sure the gameboard covers the entire viewport height */
+}
+
+.trapezoid {
+  width: 49rem; /* Adjust the width as needed */
+  height: 0; /* Set height to 0 to start with */
+  border-left: 5rem solid transparent; /* Left side */
+  border-right: 5rem solid transparent; /* Right side */
+  border-bottom: 6rem solid blue;
+  position: relative;
+}
+
+h2 {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  top: 50%;
+  left: 50%;
+  font-size: 3rem;
+  color: rgb(203, 201, 201);
+  letter-spacing: 0.15rem;
+  font-family: "Bebas Neue", sans-serif;
+  font-family: "Caveat", cursive;
+}
+
+.purpleHole {
+  background-color: DarkOrchid;
+}
+
+.pinkHole {
+  background-color: DeepPink;
+}

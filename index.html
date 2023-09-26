@@ -4,8 +4,34 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Connect Four</title>
-    <link rel="stylesheet" href="styles.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Caveat:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css" />
     <script defer src="script.js"></script>
   </head>
-  <body></body>
+
+  <body>
+    <h1>CONNECT FOUR</h1>
+    <h3>click to place your chip</h3>
+    <div class="gameboard">
+      <div class="toCenter">
+        <h1 class="gameOver" id="winner">X won</h1>
+        <button class ="gameOver" id="playagain">PLAY AGAIN</button>
+      </div>
+      <div class="clickContainer">
+        <button class="triangleButton">0</button>
+        <button class="triangleButton">1</button>
+        <button class="triangleButton">2</button>
+        <button class="triangleButton">3</button>
+        <button class="triangleButton">4</button>
+        <button class="triangleButton">5</button>
+        <button class="triangleButton">6</button>
+      </div>
+      <div class="holesContainer"></div>
+      <div class="trapezoid">
+        <h2 id="turn">turn</h2>
+      </div>
+    </div>
+  </body>
 </html>
