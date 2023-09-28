@@ -31,36 +31,35 @@ body {
   justify-content: center;
   flex-direction: column;
   align-items: center;
-  }
-
-#winner {
-  background-color: #3ba0f8; 
-  color: white; 
-  padding: 1rem 1.5rem; 
-  font-size: 2rem; 
-  font-family: "Bebas Neue", sans-serif;
-  font-family: "Caveat", cursive;
-  border: none; 
-  border-radius: 1.5rem; /* Rounded corners */
-
 }
 
-#playagain {
-  background-color: #3ba0f8; 
-  color: white; 
-  padding: 1.5rem 2rem; 
-  font-size: 2rem; 
+#winner {
+  background-color: #3ba0f8;
+  color: white;
+  padding: 1rem 1.5rem;
+  font-size: 2rem;
   font-family: "Bebas Neue", sans-serif;
   font-family: "Caveat", cursive;
-  border: none; 
+  border: none;
   border-radius: 1.5rem; /* Rounded corners */
-  cursor: pointer; 
+}
+
+#playAgain {
+  background-color: #3ba0f8;
+  color: white;
+  padding: 1.5rem 2rem;
+  font-size: 2rem;
+  font-family: "Bebas Neue", sans-serif;
+  font-family: "Caveat", cursive;
+  border: none;
+  border-radius: 1.5rem; /* Rounded corners */
+  cursor: pointer;
   transition: background-color 0.3s ease; /* Smooth color transition on hover */
-  }
-  
+}
+
 #playagain:hover {
   background-color: blue;
-  }
+}
 
 .holesContainer {
   border: 1rem solid blue;

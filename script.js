@@ -22,7 +22,7 @@ divCreationArray.forEach((row, rowIndex) => {
 //constants
 const playerNames = {
   1: "Purple",
-  "-1": "Pink",
+  2: "Pink",
 };
 
 const gameOver = document.querySelectorAll(".gameOver");
@@ -40,6 +40,7 @@ const playAgainButton = document.getElementById("playAgain");
 let board;
 let turn;
 let winner;
+let currentPlayer;
 
 /*----- functions -----*/
 //STEP 1: at beginning of game, empty board. Player 1 goes first. Winner = null.
@@ -50,10 +51,13 @@ let winner;
 initialize();
 //at beginning of a game and when replay is hit, board must be initialized:
 playAgainButton.addEventListener("click", () => {
+  console.log("working");
   initialize();
 });
 
 function initialize() {
+  playAgainButton.style.display = "none";
+  theWinner.style.display = "none";
   board = [
     [0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0],
@@ -62,291 +66,140 @@ function initialize() {
     [0, 0, 0, 0, 0, 0, 0],
     [0, 0, 0, 0, 0, 0, 0],
   ];
+  for (rowIndex = board.length - 1; rowIndex >= 0; rowIndex--) {
+    for (
+      columnIndex = board[rowIndex].length - 1;
+      columnIndex >= 0;
+      columnIndex--
+    )
+      board[rowIndex][columnIndex] = 0;
+  }
+
+  for (let element of document.querySelector(".holesContainer").children) {
+    element.classList = "hole";
+  }
+
   currentPlayer = 1;
   winner = null;
-  masterFunction();
-}
-
-//update state every turn (every time a button is clicked)
-function masterFunction() {
-  placeButtons.forEach((button) => {
-    button.addEventListener("click", () => {
-      // Your event handling logic here
-      makeMove();
-      winningLogic();
-      switchTurn();
-    });
-  });
 }
 
 placeButtons.forEach((button) => {
   button.addEventListener("click", () => {
     const columnIndex = parseInt(button.getAttribute("data-column"), 10);
+    console.log(columnIndex);
     makeMove(columnIndex);
-    winningLogic(columnIndex); // to pass columnIndex to the makeMove function
+    winningLogic();
+    switchTurn(); // to pass columnIndex to the makeMove function
   });
 });
 
 //when a placeButton is clicked, a function to place the correct chip
 function makeMove(columnIndex) {
-  if (currentPlayer === 1) {
-    //turn the hole purple of the corresponding column and row with the highest indexes and value of 0
-    // Find the lowest empty row in the specified column
-    let row = null; //If the column is full, no row to fill (null)
-    for (rowIndex = board.length - 1; rowIndex >= 0; rowIndex--) {
-      if (board[rowIndex][columnIndex] === 0) {
-        board[rowIndex][columnIndex] = 1; //update board state
-        row = rowIndex; //row to fill is row at the index where the value is 0
-        break; //exits loop once an empty cell is found
-      }
+  //turn the hole purple of the corresponding column and row with the highest indexes and value of 0
+  // Find the lowest empty row in the specified column
+  let row = null; //If the column is full, no row to fill (null)
+  for (rowIndex = board.length - 1; rowIndex >= 0; rowIndex--) {
+    if (board[rowIndex][columnIndex] === 0) {
+      board[rowIndex][columnIndex] = currentPlayer; //update board state
+      row = rowIndex; //row to fill is row at the index where the value is 0
+      break; //exits loop once an empty cell is found
     }
-    if (row !== null) {
-      // Get the corresponding hole element by ID
-      const holeToFill = document.getElementById(
-        `c${columnIndex}_r${rowIndex}`
-      );
-      // Add the purple-hole class to style it
-      holeToFill.classList.add("purpleHole");
-    }
+  }
+  if (row !== null) {
+    // Get the corresponding hole element by ID
+    const holeToFill = document.getElementById(`c${columnIndex}_r${rowIndex}`);
+    let holeColor = currentPlayer == 1 ? "purpleHole" : "pinkHole";
+    holeToFill.classList.add(holeColor);
   }
 
-  if (currentPlayer === -1) {
-    let row = null;
-    for (rowIndex = board.length - 1; rowIndex >= 0; rowIndex--) {
-      if (board[rowIndex][columnIndex] === 0) {
-        board[rowIndex][columnIndex] = "-1";
-        row = rowIndex;
-        break;
-      }
-    }
-    if (row !== null) {
-      const holeToFill = document.getElementById(
-        `c${columnIndex}_r${rowIndex}`
-      );
-      holeToFill.classList.add("pinkHole");
-    }
-  }
   //switchTurn();
 }
 
 //when a placeButton is clicked:
 function switchTurn() {
-  currentPlayer = -currentPlayer; // Toggles between 1 and -1
+  currentPlayer = currentPlayer == 1 ? 2 : 1;
   let playerMemo = document.querySelector(`h2`);
   playerMemo.innerText = playerNames[currentPlayer] + "'s turn";
 }
 
-function winningLogic(columnIndex) {
-  let pinkWon = false;
-  let purpleWon = false;
+function winningLogic() {
+  let winConditions = [
+    [
+      { x: -1, y: 0 },
+      { x: -2, y: 0 },
+      { x: -3, y: 0 },
+    ],
+    [
+      { x: 1, y: 0 },
+      { x: 2, y: 0 },
+      { x: 3, y: 0 },
+    ],
 
-  // Winning logic for -1 (pink) rows
-  for (let rowIndex = 0; rowIndex < board.length && !pinkWon; rowIndex++) {
+    [
+      { x: 0, y: -1 },
+      { x: 0, y: -2 },
+      { x: 0, y: -3 },
+    ],
+    [
+      { x: 0, y: 1 },
+      { x: 0, y: 2 },
+      { x: 0, y: 3 },
+    ],
+
+    [
+      { x: -1, y: -1 },
+      { x: -2, y: -2 },
+      { x: -3, y: -3 },
+    ],
+    [
+      { x: 1, y: 1 },
+      { x: 2, y: 2 },
+      { x: 3, y: 3 },
+    ],
+
+    [
+      { x: -1, y: 1 },
+      { x: -2, y: 2 },
+      { x: -3, y: 3 },
+    ],
+    [
+      { x: 1, y: -1 },
+      { x: 2, y: -2 },
+      { x: 3, y: -3 },
+    ],
+  ];
+
+  for (let i = 0; i < board.length - 1; i++) {
+    //iterates over rows of board
     for (
-      let columnIndex = 0;
-      columnIndex < board[0].length && !pinkWon;
-      columnIndex++
-    ) {
-      if (
-        (board[rowIndex][columnIndex] === -1 &&
-          board[rowIndex][columnIndex + 1] === -1 &&
-          board[rowIndex][columnIndex + 2] === -1 &&
-          board[rowIndex][columnIndex + 3] === -1) ||
-        (board[rowIndex][columnIndex] === -1 &&
-          board[rowIndex][columnIndex - 1] === -1 &&
-          board[rowIndex][columnIndex - 2] === -1 &&
-          board[rowIndex][columnIndex - 3] === -1)
-      ) {
-        pinkWon = true;
-        break; // Exit the inner loop
+      let j = 0;
+      j < board[i].length - 1;
+      j++ //iterates over columns of board
+    )
+      for (let winCondition of winConditions) {
+        //iterates over each win-condition array within the winning-conditions array
+        let currTileOwner = board[i][j]; //assigs current tile owner to the column, row corrdinates
+        if (currTileOwner == 0) {
+          break;
+        }
+        let coord_offset1 = winCondition[0];
+        let coord_offset2 = winCondition[1];
+        let coord_offset3 = winCondition[2];
+        try {
+          if (
+            board[i + coord_offset1.y][j + coord_offset1.x] == currTileOwner &&
+            board[i + coord_offset2.y][j + coord_offset2.x] == currTileOwner &&
+            board[i + coord_offset3.y][j + coord_offset3.x] == currTileOwner
+          ) {
+            console.log("winner!");
+            playAgainButton.style.display = "block";
+            theWinner.style.display = "block";
+            theWinner.innerText = `${playerNames[currTileOwner]} Won!`;
+            switchTurn();
+          }
+        } catch {
+          console.log("out of bounds");
+        }
       }
-    }
-  }
-
-  // Winning logic for -1 (pink) columns
-  for (
-    let columnIndex = 0;
-    columnIndex < board[0].length && !pinkWon;
-    columnIndex++
-  ) {
-    for (let rowIndex = 0; rowIndex < board.length && !pinkWon; rowIndex++) {
-      if (
-        (board[rowIndex][columnIndex] === -1 &&
-          board[rowIndex + 1][columnIndex] === -1 &&
-          board[rowIndex + 2][columnIndex] === -1 &&
-          board[rowIndex + 3][columnIndex] === -1) ||
-        (board[rowIndex][columnIndex] === -1 &&
-          board[rowIndex - 1][columnIndex] === -1 &&
-          board[rowIndex - 2][columnIndex] === -1 &&
-          board[rowIndex - 3][columnIndex] === -1)
-      ) {
-        pinkWon = true;
-        break; // Exit the inner loop
-      }
-    }
-  }
-
-  // Winning logic for 1 (purple) rows
-  for (let rowIndex = 0; rowIndex < board.length && !purpleWon; rowIndex++) {
-    for (
-      let columnIndex = 0;
-      columnIndex < board[0].length && !purpleWon;
-      columnIndex++
-    ) {
-      if (
-        (board[rowIndex][columnIndex] === 1 &&
-          board[rowIndex][columnIndex + 1] === 1 &&
-          board[rowIndex][columnIndex + 2] === 1 &&
-          board[rowIndex][columnIndex + 3] === 1) ||
-        (board[rowIndex][columnIndex] === 1 &&
-          board[rowIndex][columnIndex - 1] === 1 &&
-          board[rowIndex][columnIndex - 2] === 1 &&
-          board[rowIndex][columnIndex - 3] === 1)
-      ) {
-        purpleWon = true;
-        break; // Exit the inner loop
-      }
-    }
-  }
-
-  // ... (continue with your winning logic for diagonals)
-
-  if (pinkWon) {
-    gameOver.style.display = "flex";
-    theWinner.innerText = "Pink Won!";
-  } else if (purpleWon) {
-    gameOver.style.display = "flex";
-    theWinner.innerText = "Purple Won!";
   }
 }
-
-// function winningLogic(columnIndex) {
-//   let pinkWon = false;
-//   let purpleWon = false;
-//   //winnimg logic for -1 (pink) rows
-//   for (let rowIndex = 0; rowIndex < board.length; rowIndex++) {
-//     for (let columnIndex = 0; columnIndex < board[0].length; columnIndex++) {
-//     if (
-//       (board[rowIndex][columnIndex] === -1 &&
-//         board[rowIndex][columnIndex + 1] === -1 &&
-//         board[rowIndex][columnIndex + 2] === -1 &&
-//         board[rowIndex][columnIndex + 3] === -1) ||
-//       (board[rowIndex][columnIndex] === -1 &&
-//         board[rowIndex][columnIndex - 1] === -1 &&
-//         board[rowIndex][columnIndex - 2] === -1 &&
-//         board[rowIndex][columnIndex - 3] === -1)
-//     ) {
-//       console.log("winner");
-//       gameOver.style.display = "flex";
-//       theWinner.innerText = "Pink Won!";
-//       pinkWon = true;
-//       break; // Exit the inner loop
-//     }
-//     }
-//     if (pinkWon) break; // Exit the outer loop
-//   }
-
-//   //winnimg logic for -1 (pink) columns
-//   for (let rowIndex = 0; rowIndex < board.length; rowIndex++) {
-//     for (let columnIndex = 0; columnIndex < board[0].length; columnIndex++) {
-//       if (
-//         (board[rowIndex][columnIndex] === -1 &&
-//           board[rowIndex + 1][columnIndex] === -1 &&
-//           board[rowIndex + 2][columnIndex] === -1 &&
-//           board[rowIndex + 3][columnIndex] === -1) ||
-//         (board[rowIndex][columnIndex] === -1 &&
-//           board[rowIndex - 1][columnIndex] === -1 &&
-//           board[rowIndex - 2][columnIndex] === -1 &&
-//           board[rowIndex - 3][columnIndex] === -1)
-//       ) {
-//         gameOver.style.display = "flex";
-//         theWinner.innerText = "Pink Won!";
-//         pinkWon = true;
-//         break; // Exit the inner loop
-//     }
-//   }
-//   if (pinkWon) break; // Exit the outer loop
-//   }
-//   //winnimg logic for 1 (purple) rows
-//   for (let rowIndex = 0; rowIndex < board.length; rowIndex++) {
-//     //
-//     if (
-//       (board[rowIndex][columnIndex] === 1 &&
-//         board[rowIndex][columnIndex + 1] === 1 &&
-//         board[rowIndex][columnIndex + 2] === 1 &&
-//         board[rowIndex][columnIndex + 3] === 1) ||
-//       (board[rowIndex][columnIndex] === 1 &&
-//         board[rowIndex][columnIndex - 1] === 1 &&
-//         board[rowIndex][columnIndex - 2] === 1 &&
-//         board[rowIndex][columnIndex - 3] === 1)
-//     ) {
-//       gameOver.style.display = "flex";
-//       theWinner.innerText = "Purple Won!";
-//       break;
-//     }
-//   }
-
-//   //winning logic for pink diagonals
-//   for (let rowIndex = 0; rowIndex < board.length; rowIndex++) {
-//     for (let columnIndex = 0; columnIndex < board[0].length; columnIndex++) {
-//       if (
-//         (columnIndex + 3 <= board[rowIndex].length &&
-//           rowIndex + 3 <= board.length &&
-//           board[rowIndex][columnIndex] === -1 &&
-//           board[rowIndex + 1][columnIndex + 1] === -1 &&
-//           board[rowIndex + 2][columnIndex + 2] === -1 &&
-//           board[rowIndex + 3][columnIndex + 3] === -1) ||
-//         (columnIndex + 3 < board[rowIndex].length &&
-//           rowIndex - 3 >= 0 &&
-//           columnIndex - 3 >= 0 &&
-//           board[rowIndex][columnIndex] === -1 &&
-//           board[rowIndex - 1][columnIndex - 1] === -1 &&
-//           board[rowIndex - 2][columnIndex - 2] === -1 &&
-//           board[rowIndex - 3][columnIndex - 3] === -1)
-//       ) {
-//         gameOver.style.display = "flex";
-//         theWinner.innerText = "Pink Won!";
-//         break;
-//       }
-//     }
-//   }
-
-//winning logic for purple diagonals
-for (let rowIndex = 0; rowIndex < board.length; rowIndex++) {
-  for (let columnIndex = 0; columnIndex < board[0].length; columnIndex++) {
-    if (
-      (columnIndex + 3 < board[rowIndex].length &&
-        rowIndex + 3 < board.length &&
-        board[rowIndex][columnIndex] === 1 &&
-        board[rowIndex + 1][columnIndex + 1] === 1 &&
-        board[rowIndex + 2][columnIndex + 2] === 1 &&
-        board[rowIndex + 3][columnIndex + 3] === 1) ||
-      (columnIndex + 3 < board[rowIndex].length &&
-        rowIndex - 3 >= 0 &&
-        columnIndex - 3 >= 0 &&
-        board[rowIndex][columnIndex] === 1 &&
-        board[rowIndex - 1][columnIndex - 1] === 1 &&
-        board[rowIndex - 2][columnIndex - 2] === 1 &&
-        board[rowIndex - 3][columnIndex - 3] === 1)
-    ) {
-      gameOver.style.display = "flex";
-      theWinner.innerText = "Purple Won!";
-    }
-  }
-}
-
-// const Colors = {
-//   1: "DarkOrchid",
-//   "-1": "DeepPink",
-//   0: "white",
-// };
-
-// function renderBoardColors() {
-//   board.forEach((rowArray, rowIndex) => {
-//     rowArray.forEach((columnValue, columnIndex) => {
-//       const divID = document.querySelector(`#c${columnIndex}_r${rowIndex}`);
-//       console.log(divID);
-//       divID.style.backgroundColor = Colors[columnValue];
-//     });
-//   });
-// }
