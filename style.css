@@ -145,3 +145,7 @@ h2 {
 .pinkHole {
   background-color: DeepPink;
 }
+
+.gameOver {
+  display: none;
+}
