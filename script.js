@@ -82,7 +82,8 @@ function masterFunction() {
 placeButtons.forEach((button) => {
   button.addEventListener("click", () => {
     const columnIndex = parseInt(button.getAttribute("data-column"), 10);
-    makeMove(columnIndex); // to pass columnIndex to the makeMove function
+    makeMove(columnIndex);
+    winningLogic(columnIndex); // to pass columnIndex to the makeMove function
   });
 });
 
@@ -135,26 +136,40 @@ function switchTurn() {
   playerMemo.innerText = playerNames[currentPlayer] + "'s turn";
 }
 
-function winningLogic() {
-  //winnimg logic for -1 (pink) rows
-  for (let rowIndex = 0; rowIndex < board.length; rowIndex++) {
-    if (
-      (board[rowIndex] === -1 &&
-        board[rowIndex + 1] === -1 &&
-        board[rowIndex + 2] === -1 &&
-        board[rowIndex + 3] === -1) ||
-      (board[rowIndex] === -1 &&
-        board[rowIndex - 1] === -1 &&
-        board[rowIndex - 2] === -1 &&
-        board[rowIndex - 3] === -1)
+function winningLogic(columnIndex) {
+  let pinkWon = false;
+  let purpleWon = false;
+
+  // Winning logic for -1 (pink) rows
+  for (let rowIndex = 0; rowIndex < board.length && !pinkWon; rowIndex++) {
+    for (
+      let columnIndex = 0;
+      columnIndex < board[0].length && !pinkWon;
+      columnIndex++
     ) {
-      gameOver.style.display = "flex";
-      theWinner.innerText = "Pink Won!";
+      if (
+        (board[rowIndex][columnIndex] === -1 &&
+          board[rowIndex][columnIndex + 1] === -1 &&
+          board[rowIndex][columnIndex + 2] === -1 &&
+          board[rowIndex][columnIndex + 3] === -1) ||
+        (board[rowIndex][columnIndex] === -1 &&
+          board[rowIndex][columnIndex - 1] === -1 &&
+          board[rowIndex][columnIndex - 2] === -1 &&
+          board[rowIndex][columnIndex - 3] === -1)
+      ) {
+        pinkWon = true;
+        break; // Exit the inner loop
+      }
     }
   }
-  //winnimg logic for -1 (pink) columns
-  for (let rowIndex = 0; rowIndex < board.length; rowIndex++) {
-    for (let columnIndex = 0; columnIndex < board[0].length; columnIndex++) {
+
+  // Winning logic for -1 (pink) columns
+  for (
+    let columnIndex = 0;
+    columnIndex < board[0].length && !pinkWon;
+    columnIndex++
+  ) {
+    for (let rowIndex = 0; rowIndex < board.length && !pinkWon; rowIndex++) {
       if (
         (board[rowIndex][columnIndex] === -1 &&
           board[rowIndex + 1][columnIndex] === -1 &&
@@ -165,74 +180,157 @@ function winningLogic() {
           board[rowIndex - 2][columnIndex] === -1 &&
           board[rowIndex - 3][columnIndex] === -1)
       ) {
-        gameOver.style.display = "flex";
-        theWinner.innerText = "Pink Won!";
+        pinkWon = true;
+        break; // Exit the inner loop
       }
     }
   }
-  //winnimg logic for 1 (purple) rows
-  for (let rowIndex = 0; rowIndex < board.length; rowIndex++) {
-    //
+
+  // Winning logic for 1 (purple) rows
+  for (let rowIndex = 0; rowIndex < board.length && !purpleWon; rowIndex++) {
+    for (
+      let columnIndex = 0;
+      columnIndex < board[0].length && !purpleWon;
+      columnIndex++
+    ) {
+      if (
+        (board[rowIndex][columnIndex] === 1 &&
+          board[rowIndex][columnIndex + 1] === 1 &&
+          board[rowIndex][columnIndex + 2] === 1 &&
+          board[rowIndex][columnIndex + 3] === 1) ||
+        (board[rowIndex][columnIndex] === 1 &&
+          board[rowIndex][columnIndex - 1] === 1 &&
+          board[rowIndex][columnIndex - 2] === 1 &&
+          board[rowIndex][columnIndex - 3] === 1)
+      ) {
+        purpleWon = true;
+        break; // Exit the inner loop
+      }
+    }
+  }
+
+  // ... (continue with your winning logic for diagonals)
+
+  if (pinkWon) {
+    gameOver.style.display = "flex";
+    theWinner.innerText = "Pink Won!";
+  } else if (purpleWon) {
+    gameOver.style.display = "flex";
+    theWinner.innerText = "Purple Won!";
+  }
+}
+
+// function winningLogic(columnIndex) {
+//   let pinkWon = false;
+//   let purpleWon = false;
+//   //winnimg logic for -1 (pink) rows
+//   for (let rowIndex = 0; rowIndex < board.length; rowIndex++) {
+//     for (let columnIndex = 0; columnIndex < board[0].length; columnIndex++) {
+//     if (
+//       (board[rowIndex][columnIndex] === -1 &&
+//         board[rowIndex][columnIndex + 1] === -1 &&
+//         board[rowIndex][columnIndex + 2] === -1 &&
+//         board[rowIndex][columnIndex + 3] === -1) ||
+//       (board[rowIndex][columnIndex] === -1 &&
+//         board[rowIndex][columnIndex - 1] === -1 &&
+//         board[rowIndex][columnIndex - 2] === -1 &&
+//         board[rowIndex][columnIndex - 3] === -1)
+//     ) {
+//       console.log("winner");
+//       gameOver.style.display = "flex";
+//       theWinner.innerText = "Pink Won!";
+//       pinkWon = true;
+//       break; // Exit the inner loop
+//     }
+//     }
+//     if (pinkWon) break; // Exit the outer loop
+//   }
+
+//   //winnimg logic for -1 (pink) columns
+//   for (let rowIndex = 0; rowIndex < board.length; rowIndex++) {
+//     for (let columnIndex = 0; columnIndex < board[0].length; columnIndex++) {
+//       if (
+//         (board[rowIndex][columnIndex] === -1 &&
+//           board[rowIndex + 1][columnIndex] === -1 &&
+//           board[rowIndex + 2][columnIndex] === -1 &&
+//           board[rowIndex + 3][columnIndex] === -1) ||
+//         (board[rowIndex][columnIndex] === -1 &&
+//           board[rowIndex - 1][columnIndex] === -1 &&
+//           board[rowIndex - 2][columnIndex] === -1 &&
+//           board[rowIndex - 3][columnIndex] === -1)
+//       ) {
+//         gameOver.style.display = "flex";
+//         theWinner.innerText = "Pink Won!";
+//         pinkWon = true;
+//         break; // Exit the inner loop
+//     }
+//   }
+//   if (pinkWon) break; // Exit the outer loop
+//   }
+//   //winnimg logic for 1 (purple) rows
+//   for (let rowIndex = 0; rowIndex < board.length; rowIndex++) {
+//     //
+//     if (
+//       (board[rowIndex][columnIndex] === 1 &&
+//         board[rowIndex][columnIndex + 1] === 1 &&
+//         board[rowIndex][columnIndex + 2] === 1 &&
+//         board[rowIndex][columnIndex + 3] === 1) ||
+//       (board[rowIndex][columnIndex] === 1 &&
+//         board[rowIndex][columnIndex - 1] === 1 &&
+//         board[rowIndex][columnIndex - 2] === 1 &&
+//         board[rowIndex][columnIndex - 3] === 1)
+//     ) {
+//       gameOver.style.display = "flex";
+//       theWinner.innerText = "Purple Won!";
+//       break;
+//     }
+//   }
+
+//   //winning logic for pink diagonals
+//   for (let rowIndex = 0; rowIndex < board.length; rowIndex++) {
+//     for (let columnIndex = 0; columnIndex < board[0].length; columnIndex++) {
+//       if (
+//         (columnIndex + 3 <= board[rowIndex].length &&
+//           rowIndex + 3 <= board.length &&
+//           board[rowIndex][columnIndex] === -1 &&
+//           board[rowIndex + 1][columnIndex + 1] === -1 &&
+//           board[rowIndex + 2][columnIndex + 2] === -1 &&
+//           board[rowIndex + 3][columnIndex + 3] === -1) ||
+//         (columnIndex + 3 < board[rowIndex].length &&
+//           rowIndex - 3 >= 0 &&
+//           columnIndex - 3 >= 0 &&
+//           board[rowIndex][columnIndex] === -1 &&
+//           board[rowIndex - 1][columnIndex - 1] === -1 &&
+//           board[rowIndex - 2][columnIndex - 2] === -1 &&
+//           board[rowIndex - 3][columnIndex - 3] === -1)
+//       ) {
+//         gameOver.style.display = "flex";
+//         theWinner.innerText = "Pink Won!";
+//         break;
+//       }
+//     }
+//   }
+
+//winning logic for purple diagonals
+for (let rowIndex = 0; rowIndex < board.length; rowIndex++) {
+  for (let columnIndex = 0; columnIndex < board[0].length; columnIndex++) {
     if (
-      (board[rowIndex] === 1 &&
-        board[rowIndex + 1] === 1 &&
-        board[rowIndex + 2] === 1 &&
-        board[rowIndex + 3] === 1) ||
-      (board[rowIndex] === 1 &&
-        board[rowIndex - 1] === 1 &&
-        board[rowIndex - 2] === 1 &&
-        board[rowIndex - 3] === 1)
+      (columnIndex + 3 < board[rowIndex].length &&
+        rowIndex + 3 < board.length &&
+        board[rowIndex][columnIndex] === 1 &&
+        board[rowIndex + 1][columnIndex + 1] === 1 &&
+        board[rowIndex + 2][columnIndex + 2] === 1 &&
+        board[rowIndex + 3][columnIndex + 3] === 1) ||
+      (columnIndex + 3 < board[rowIndex].length &&
+        rowIndex - 3 >= 0 &&
+        columnIndex - 3 >= 0 &&
+        board[rowIndex][columnIndex] === 1 &&
+        board[rowIndex - 1][columnIndex - 1] === 1 &&
+        board[rowIndex - 2][columnIndex - 2] === 1 &&
+        board[rowIndex - 3][columnIndex - 3] === 1)
     ) {
       gameOver.style.display = "flex";
       theWinner.innerText = "Purple Won!";
-    }
-  }
-
-  //winnimg logic for pink diagonals
-  for (let rowIndex = 0; rowIndex < board.length; rowIndex++) {
-    for (let columnIndex = 0; columnIndex < board[0].length; columnIndex++) {
-      if (
-        (columnIndex + 3 < board[rowIndex].length &&
-          rowIndex + 3 < board.length &&
-          board[rowIndex][columnIndex] === -1 &&
-          board[rowIndex + 1][columnIndex + 1] === -1 &&
-          board[rowIndex + 2][columnIndex + 2] === -1 &&
-          board[rowIndex + 3][columnIndex + 3] === -1) ||
-        (columnIndex + 3 < board[rowIndex].length &&
-          rowIndex - 3 >= 0 &&
-          columnIndex - 3 >= 0 &&
-          board[rowIndex][columnIndex] === -1 &&
-          board[rowIndex - 1][columnIndex - 1] === -1 &&
-          board[rowIndex - 2][columnIndex - 2] === -1 &&
-          board[rowIndex - 3][columnIndex - 3] === -1)
-      ) {
-        gameOver.style.display = "flex";
-        theWinner.innerText = "Pink Won!";
-      }
-    }
-  }
-
-  //winning logic for purple diagonals
-  for (let rowIndex = 0; rowIndex < board.length; rowIndex++) {
-    for (let columnIndex = 0; columnIndex < board[0].length; columnIndex++) {
-      if (
-        (columnIndex + 3 < board[rowIndex].length &&
-          rowIndex + 3 < board.length &&
-          board[rowIndex][columnIndex] === 1 &&
-          board[rowIndex + 1][columnIndex + 1] === 1 &&
-          board[rowIndex + 2][columnIndex + 2] === 1 &&
-          board[rowIndex + 3][columnIndex + 3] === 1) ||
-        (columnIndex + 3 < board[rowIndex].length &&
-          rowIndex - 3 >= 0 &&
-          columnIndex - 3 >= 0 &&
-          board[rowIndex][columnIndex] === 1 &&
-          board[rowIndex - 1][columnIndex - 1] === 1 &&
-          board[rowIndex - 2][columnIndex - 2] === 1 &&
-          board[rowIndex - 3][columnIndex - 3] === 1)
-      ) {
-        gameOver.style.display = "flex";
-        theWinner.innerText = "Purple Won!";
-      }
     }
   }
 }
