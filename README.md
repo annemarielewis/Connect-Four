@@ -1,23 +1,17 @@
-Expected challenges: I am still getting comfortable with JS functions and logic, so this will be a challenge. Because I'm still getting the hang of it, I'm very excited to continue practicing JS/the DOM through this project!
+This is a connect four game with my original code.
 
-Goal: code connect four and become more comfortable with multifaceted functions and game logic! I'd also really like to add AI algorithms if I have time so that the user can play against an oponent whenever they load the page (so that the game is accomplishing its intended purpose)
+Languages used:
+html
+css
+javascript
 
 html:
-//create the holes using div elements
-//wrap these divs in a div and, to give the holes an outline, create a border around the encapsulating div
-//create buttons for "player red" and "player blue"
-//create a div for the "X-won" box and set it to hidden
+To save 43 lines of html code, I created an array in JS and, using a for loop, iterated over the array to create divs with the class hole for the holes of the board. I then styled these divs in css along with the board's design.
 
-javascript:
-//pull the X-won box into the dom
-//create a variable for player red (Red)
-//create a variable for player (Blue)
+To create the responsive elements of the game, I used the DOM to call html elements into JS and created event listeners.
 
-//add a elements in the html for arrow cursor over a row when toggled, give class (.arrow), set to hidden
-//^bring that element into JS dom
-//event listener: when row is toggled, arrow classes becomes visible
+The winning logic of the game was the most challenging aspect. I created wining logic in a prior version that was many more lines of code, but then decided to re-assess my approach and refactor. I am happier with the new, current code.
 
-//create an event listener when a row is clicked
-//when that row is clicked, drop the current player's chip
+I'd also like to add an AI algorithm so that the user can play against an "oponent" whenever they load the page.
 
-//css: style appropriately/how would I use a jpeg or png as my board instead? (important question-->investigate)
+This was my first project using html, css, JS, and the DOM, and I am really excited to continue learning, improving, and creating!

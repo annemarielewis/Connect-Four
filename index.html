@@ -17,24 +17,26 @@
   <body>
     <h1>CONNECT FOUR</h1>
     <h3>click to place your chip</h3>
+    <audio id="sound-effect" src="mouse-click.mp3" preload="auto"></audio>
+    <audio id="sound-effect2" src="chips-falling.mp3" preload="auto"></audio>
+    <audio id="sound-effect3" src="success.mp3" preload="auto"></audio>
     <div class="gameboard">
       <div class="toCenter">
-        <h1 class="gameOver" id="winner">X won</h1>
-        <button class="gameOver" id="playAgain">PLAY AGAIN</button>
+        <h1 class="click gameOver" id="winner">X won</h1>
+        <button class="click gameOver" id="playAgain">PLAY AGAIN</button>
       </div>
       <div class="clickContainer">
-        <button class="triangleButton" data-column="0">0</button>
-        <button class="triangleButton" data-column="1">1</button>
-        <button class="triangleButton" data-column="2">2</button>
-        <button class="triangleButton" data-column="3">3</button>
-        <button class="triangleButton" data-column="4">4</button>
-        <button class="triangleButton" data-column="5">5</button>
-        <button class="triangleButton" data-column="6">6</button>
+        <button class="click triangleButton" data-column="0"></button>
+        <button class="click triangleButton" data-column="1"></button>
+        <button class="click triangleButton" data-column="2"></button>
+        <button class="click triangleButton" data-column="3"></button>
+        <button class="click triangleButton" data-column="4"></button>
+        <button class="click triangleButton" data-column="5"></button>
+        <button class="click triangleButton" data-column="6"></button>
       </div>
       <div class="holesContainer"></div>
       <div class="trapezoid">
         <h2 id="turn">Purple's turn</h2>
-        4
       </div>
     </div>
   </body>

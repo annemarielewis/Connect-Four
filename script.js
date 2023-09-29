@@ -13,7 +13,6 @@ divCreationArray.forEach((row, rowIndex) => {
     const div = document.createElement("div");
     div.className = "hole";
     div.id = `c${columnIndex}_r${rowIndex}`;
-    div.textContent = `c${columnIndex}_r${rowIndex}`;
     const boardContainer = document.querySelector(".holesContainer");
     boardContainer.appendChild(div);
   });
@@ -30,6 +29,10 @@ const placeButtons = document.querySelectorAll(".triangleButton");
 const playerTurn = document.querySelector("#turn");
 const theWinner = document.getElementById("winner");
 const playAgainButton = document.getElementById("playAgain");
+const soundEffect = document.getElementById("sound-effect");
+const clickForSound = document.querySelectorAll(".click");
+const soundEffect2 = document.getElementById("sound-effect2");
+const soundEffect3 = document.getElementById("sound-effect3");
 
 //states that game must track:
 //turn state: -1=yellow, 1=green
@@ -51,6 +54,7 @@ let currentPlayer;
 initialize();
 //at beginning of a game and when replay is hit, board must be initialized:
 playAgainButton.addEventListener("click", () => {
+  soundEffect2.play();
   console.log("working");
   initialize();
 });
@@ -85,6 +89,8 @@ function initialize() {
 
 placeButtons.forEach((button) => {
   button.addEventListener("click", () => {
+    soundEffect.currentTime = 0;
+    soundEffect.play();
     const columnIndex = parseInt(button.getAttribute("data-column"), 10);
     console.log(columnIndex);
     makeMove(columnIndex);
@@ -95,6 +101,7 @@ placeButtons.forEach((button) => {
 
 //when a placeButton is clicked, a function to place the correct chip
 function makeMove(columnIndex) {
+  soundEffect.play();
   //turn the hole purple of the corresponding column and row with the highest indexes and value of 0
   // Find the lowest empty row in the specified column
   let row = null; //If the column is full, no row to fill (null)
@@ -191,6 +198,7 @@ function winningLogic() {
             board[i + coord_offset2.y][j + coord_offset2.x] == currTileOwner &&
             board[i + coord_offset3.y][j + coord_offset3.x] == currTileOwner
           ) {
+            soundEffect3.play();
             console.log("winner!");
             playAgainButton.style.display = "block";
             theWinner.style.display = "block";
