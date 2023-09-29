@@ -12,6 +12,6 @@ To create the responsive elements of the game, I used the DOM to call html eleme
 
 The winning logic of the game was the most challenging aspect. I created wining logic in a prior version that was many more lines of code, but then decided to re-assess my approach and refactor. I am happier with the new, current code.
 
-I'd also like to add an AI algorithm so that the user can play against an "oponent" whenever they load the page.
+I'd also like to add an AI algorithm so that the user can play against an "opponent" whenever they load the page.
 
 This was my first project using html, css, JS, and the DOM, and I am really excited to continue learning, improving, and creating!
